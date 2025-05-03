@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Naše výročí</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #ffdde1;
+      --secondary: #ee9ca7;
+      --text: #333333;
+      --highlight: #d6336c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: var(--text);
+      animation: gradientShift 6s ease-in-out infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background: linear-gradient(to right, #ffdde1, #ee9ca7); }
+      25% { background: linear-gradient(to right, #ffd1dc, #ff99ac); }
+      50% { background: linear-gradient(to right, #ffdde1, #ee9ca7); }
+      75% { background: linear-gradient(to right, #ffd1dc, #ff99ac); }
+      100% { background: linear-gradient(to right, #ffdde1, #ee9ca7); }
+    }
+    .intro-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ffffff;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      transition: opacity 1s ease;
+    }
+
+    .intro-overlay h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3rem;
+      color: var(--highlight);
+      margin-bottom: 1rem;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .intro-overlay p {
+      font-size: 1.2rem;
+      color: var(--text);
+      margin-bottom: 2rem;
+    }
+
+    .intro-overlay button {
+      background: var(--highlight);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .intro-overlay button:hover {
+      background: #a51e4e;
+    }
+
+    #main-content.hidden {
+      display: none;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: rgba(255, 255, 255, 0.7);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2rem;
+      color: var(--highlight);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    nav ul li a:hover {
+      color: var(--highlight);
+    }
+    header {
+      text-align: center;
+      padding: 6rem 2rem 3rem;
+      background-color: rgba(255, 255, 255, 0.6);
+    }
+    header h2 {
+      font-size: 2.5rem;
+      color: var(--highlight);
+    }
+    section {
+      padding: 4rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    section h3 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--highlight);
+    }
+    section p {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      transition: transform 0.3s ease-in-out;
+    }
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+    .caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--highlight);
+      padding: 1rem;
+      font-weight: bold;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .gallery-item:hover .caption {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background-color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+    }
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      header h2 {
+        font-size: 2rem;
+      }
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+    #dekuji.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+
+.section-wrapper {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
+    .hearts span {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: float 10s infinite ease-in;
+    }
+    .hearts span::before,
+    .hearts span::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+    .hearts span::before {
+      top: -10px;
+      left: 0;
+    }
+    .hearts span::after {
+      left: -10px;
+      top: 0;
+    }
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(0.5);
+        opacity: 0;
+      }
+    }
+
+</style>
+</head>
+<body>
+  <div class="intro-overlay" id="intro">
+    <h1>Pro Tebe, lásko ❤️</h1>
+    <p>Toto je jen malý dárek plný vzpomínek a snů. Jsi připravena?</p>
+    <button onclick="hideIntro()">Ukázat stránku</button>
+  </div>
+  <nav>
+    <h1>Výročí ❤️</h1>
+    <ul>
+      <li><a href="#uvod">Úvod</a></li>
+      <li><a href="#vzpominky">Vzpomínky</a></li>
+      <li><a href="#budoucnost">Budoucnost</a></li>
+      <li><a href="nase-galerie-lasko.html">Klikni , čeká tě prekvapení</a></li>
+    </ul>
+  </nav>
+
+  <header id="uvod">
+    <h2>Šťastné 1. výročí, lásko moje </h2>
+    <div class="hearts">
+      <span style="left: 10%; animation-delay: 0s;"></span>
+      <span style="left: 30%; animation-delay: 2s;"></span>
+      <span style="left: 50%; animation-delay: 4s;"></span>
+      <span style="left: 70%; animation-delay: 6s;"></span>
+      <span style="left: 90%; animation-delay: 8s;"></span>
+    </div>
+  </header>
+
+  <section id="vzpominky">
+    <h3 class="fade-up">Naše společné vzpomínky</h3>
+    <p class="fade-up">Každý okamžik, který jsme spolu prožili, se zapsal do mé paměti jako nejkrásnější kapitoly našeho společného příběhu. Pamatuješ si, jak jsme se drželi za ruce během chladných zimních večerů, jak jsme se smáli při cestách, kde jsme se i ztratili, a přesto to byl ten nejlepší výlet?</p>
+    <p class="fade-up">Tyto vzpomínky jsou poklady mého srdce, a s každou další společnou chvílí se náš příběh stává hlubší, opravdovější a krásnější. Každý tvůj úsměv, každé objetí, každé ráno s tebou je zázrak, který si zaslouží být oslavován. Děkuji ti za to, že jsi součástí mého života.</p>
+    <p class="fade-up">Vzpomínám si na všechny naše malé rituály – ranní káva, pozdní noční hovory, to, jak mi vždy podáš ruku, když přecházíme silnici. Jsou to právě tyto drobnosti, které tvoří naši lásku tak výjimečnou. Tvé oči jsou pro mě domovem, tvůj smích hudbou, kterou si chci přehrávat každý den.</p>
+    <div class="gallery">
+      <div class="gallery-item">
+        <img src="Obrazky/3FB8D9DD-12CE-4EC1-ABA3-7355654B9324_1_105_c.jpg" alt="Společná fotka 1">
+        <div class="caption">Naše první večerní procházka v srdci Prahy. Chvíle, kdy jsem věděl, že jsi výjimečná. ❤️</div>
+      </div>
+      <div class="gallery-item">
+        <img src="Obrazky/18D3CC53-9480-4054-B0B5-8A6CF5F29E02_1_201_a.jpg" alt="Společná fotka 2">
+        <div class="caption">Zimní radovánky na ledě – smích, pád i objetí. Tyto momenty nás spojily ještě víc. ❄️</div>
+      </div>
+      <div class="gallery-item">
+        <img src="Obrazky/81711C35-BFF6-482D-A2CF-8912186880E5_1_201_a.jpg" alt="Společná fotka 3">
+        <div class="caption">Slunce, léto a tvůj úsměv – to je kombinace, kterou si chci pamatovat navždy. 🌞</div>
+      </div>
+      <div class="gallery-item">
+        <img src="Obrazky/CDDBE6E5-98C1-47F8-BE64-9DBE0D3C32FF_1_201_a.jpg" alt="Společná fotka 4">
+        <div class="caption">V klidu přírody s tebou. Každý den s tebou je dar, který si vážím. 🌲</div>
+      </div>
+      <div class="gallery-item">
+        <img src="Obrazky/D44BCD33-08F3-4094-BA8A-A687CFDC879E_1_201_a.jpg" alt="Společná fotka 5">
+        <div class="caption">Vzpomínka na jedno krásný den v Praze s tebou. Společně zvládneme všechno. 💫</div>
+      </div>
+    </div>
+  </div>
+  <section id="budoucnost" class="fade-up">
+    <h3 class="fade-up">Co nás čeká</h3>
+    <p class="fade-up">Naše společná cesta teprve začíná. Vidím před námi spoustu úžasných dobrodružství – výlety do neznámých míst, tiché večery s čajem a dlouhé rozhovory, které nikdy neomrzí. Chci s tebou objevit svět, držet tě za ruku ve chvílích radosti i smutku, sdílet úspěchy, ale i ticho, když není třeba slov. V každém dni najít důvod pro úsměv, objetí, pohlazení. Chci, abychom každý rok společně oslavili jako další kapitolu našeho nádherného příběhu.</p>
+    <p class="fade-up">Chci být u všech tvých úspěchů, stát po tvém boku v těžkých chvílích a těšit se z každého úsměvu, který spolu sdílíme. Společně vytvoříme domov plný lásky, podpory a snů, které se stávají skutečností. Každý den je šance vytvořit další krásnou vzpomínku, napsat nový řádek do naší společné knihy života. Budeme stavět na důvěře, radosti a společném snění – a vím, že spolu dokážeme úplně všechno.</p>
+  </section>
+
+  <section id="dekuji" class="fade-up" style="text-align:center; padding: 4rem 2rem; background: rgba(255,255,255,0.6); border-radius: 16px; margin: 4rem auto; max-width: 900px;">
+  <h3 class="fade-up" style="color: var(--highlight); font-size: 2rem; margin-bottom: 1rem; font-family: 'Great Vibes', cursive;">Z celého srdce ti děkuji</h3>
+  <p class="fade-up" style="max-width: 800px; margin: 1.5rem auto; font-size: 1.3rem; line-height: 2; color: var(--text);">
+    Děkuji ti, že jsi světlem v mém životě, které nikdy nezhasíná.<br>
+    Děkuji ti za tvou trpělivost, lásku a pochopení, které mi denně dáváš.<br>
+    Děkuji ti, že mě držíš, když se bojím, a směješ se se mnou, když jsem šťastný.<br>
+    Děkuji ti, že jsme spolu zvládli všechno, co nám život přinesl.<br>
+    Děkuji ti za to, že díky tobě vím, co znamená milovat naplno.<br>
+    A především děkuji, že jsi tady. Teď, zítra i navždy. ❤️<br><br>
+    Každý tvůj pohled mi připomíná, jaké mám štěstí. Každé ráno s tebou má smysl. Miluji tě víc, než dokážu slovy říct, a děkuji, že tvoříme tento příběh společně.
+  </p>
+</section>
+<style>
+  :root {
+    --primary: #ffdde1;
+    --secondary: #ee9ca7;
+    --text: #333333;
+    --highlight: #d6336c;
+  }
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<section style="padding: 4rem 2rem; text-align: center; background: rgba(255,255,255,0.4); margin-top: 4rem;">
+  <h3 class="fade-up" style="font-family: 'Great Vibes', cursive; color: var(--highlight); font-size: 2rem;">
+    Na závěr jedno přání
+  </h3>
+  <p class="fade-up" style="font-size: 1.2rem; max-width: 800px; margin: 1rem auto;">
+    Ať každý další den přináší nové důvody k úsměvu, nové zážitky, které budou naše. <br>
+    Ať tvé srdce nikdy nezapomene, jak moc tě miluji. <br>
+    Ať je tohle jen začátek krásného příběhu, který budeme dál psát spolu. ❤️
+  </p>
+</section>
+
+
+<footer>
+  S láskou vytvořeno jen pro tebe ❤️
+</footer>
+
+  <script>
+    function hideIntro() {
+      const intro = document.getElementById('intro');
+      const main = document.getElementById('main-content');
+      intro.style.opacity = '0';
+      setTimeout(() => {
+        intro.style.display = 'none';
+        main.style.display = 'block';
+        document.body.style.overflow = 'auto';
+      }, 1000);
+    }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => {
+    observer.observe(el);
+  });
+
+  document.querySelector('header').addEventListener('click', () => {
+    alert('Děkuji, že jsi součástí mého života ❤️');
+  });
+</script>
+
+</body>
+</html>

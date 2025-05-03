@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galerie vzpomínek</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #ffdde1;
+      --secondary: #ee9ca7;
+      --text: #333333;
+      --highlight: #d6336c;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: var(--text);
+      padding: 2rem;
+      animation: gradientShift 6s ease-in-out infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background: linear-gradient(to right, #ffdde1, #ee9ca7); }
+      25% { background: linear-gradient(to right, #ffd1dc, #ff99ac); }
+      50% { background: linear-gradient(to right, #ffdde1, #ee9ca7); }
+      75% { background: linear-gradient(to right, #ffd1dc, #ff99ac); }
+      100% { background: linear-gradient(to right, #ffdde1, #ee9ca7); }
+    }
+
+    .photo-entry {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      margin: 3rem auto;
+      flex-wrap: wrap;
+      max-width: 900px;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .photo-entry img {
+      max-width: 300px;
+      border-radius: 16px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .photo-entry.double-group .image-group img {
+      width: 90px;
+      height: auto;
+    }
+
+    .photo-entry.custom-pair .image-group img {
+      width: 100px;
+      height: 130px;
+    }
+
+    .photo-entry:hover img {
+      transform: scale(1.05);
+    }
+
+    .photo-caption {
+      max-width: 500px;
+      opacity: 0;
+      transform: translateX(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      background: rgba(255,255,255,0.95);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .photo-entry:hover .photo-caption {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    h1 {
+      text-align: center;
+      font-family: 'Great Vibes', cursive;
+      color: var(--highlight);
+      margin-bottom: 3rem;
+      font-size: 3rem;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    });
+  </script>
+
+  <h1>Galerie našich vzpomínek</h1>
+
+  <div class="photo-entry fade-in">
+    <img src="Galerie-Obrazku/PRVNI/prvni-spolecna.jpg" alt="Vzpomínka 1">
+    <div class="photo-caption">
+      <h5>První společná</h5>
+      <p>První naše společná fotka ale druhá pusa lásko , na ten den nikdy nezapomenu , a navždy za něj budu vděčnej</p>
+    </div>
+  </div>
+
+  <div class="photo-entry fade-in">
+    <div class="image-group">
+      <img src="Galerie-Obrazku/PRVNI/kanada.jpeg" alt="Vzpomínka 2">
+      <img src="Galerie-Obrazku/PRVNI/kanada-misa.jpeg" alt="Vzpomínka 2b">
+    </div>
+    <div class="photo-caption">
+        <h5>Já v Kanadě ty doma</h5>
+        <p>Já na cestách, ty doma, a přesto jsme si byli nejblíž. I takové okamžiky tvoří náš příběh.</p>
+    </div>
+  </div>
+
+  <div class="photo-entry">
+    <img src="Galerie-Obrazku/PRVNI/Prvni-dovca.jpg" alt="Vzpomínka 3">
+    <div class="photo-caption">
+      <h5>Léto a tvůj úsměv</h5>
+      <p>Jeden z těch dnů, kdy bylo všechno dokonalé jen proto, že jsi tam byla ty a také naše první společná dovolená jupííííí</p>
+    </div>
+  </div>
+  <div class="photo-entry">
+    <img src="Galerie-Obrazku/CTYRI/7270A19B-2381-4E71-98BB-234C7B6D4C56.jpeg" alt="Vzpomínka 8">
+    <div class="photo-caption">
+      <h5>No práce no a co jako </h5>
+      <p>Já vím lásko nebyl jsem úplně milej v tuto dobu , ale musíš pochopit , říkala jsi nikdy nedám práci před tebe a hned třetí den jsi to udělala, nebylo to úplně nejsvětlejší období zvlášť když jsi měla být doma odložily jsme dovolenou ale i tak jsi tam šla ale o tom jindy , Miluju tě </p>
+    </div>
+  </div>
+  <div class="photo-entry">
+    <img src="Galerie-Obrazku/PRVNI/F06A40DC-A587-4684-A1F1-8100518CE8BE_1_201_a.jpg" alt="Vzpomínka 4">
+    <div class="photo-caption">
+      <h5>Nejdéle co jsme spolu byly</h5>
+      <p>Lásko ten nejkrásnější týden v mém životě , díky tomu že jsme byly celý týden jen ty a já . ps: blue laguna</p>
+    </div>
+  </div>
+  
+  <div class="photo-entry fade-in">
+    <img src="Galerie-Obrazku/CTYRI/B49EFF52-C063-4112-9BE6-0147185D638C_1_105_c.jpeg" alt="Vzpomínka 5">
+    <img src="Galerie-Obrazku/CTYRI/A45B656F-A315-4DBB-A47F-A2FDA6D1F69A_1_105_c.jpg" alt="Vzpomínka 5b">
+    <div class="photo-caption">
+      <h5>TY pryč, Já doma</h5>
+      <p>TY v chorvatsku já doma , a nasraný pjomiň :( , ale jak ty říkáš i tak tě miluju lásko :)</p>
+    </div>
+  </div>
+
+  <div class="photo-entry">
+    <img src="Galerie-Obrazku/CTYRI/D44BCD33-08F3-4094-BA8A-A687CFDC879E_1_201_a.jpg" alt="Vzpomínka 5">
+    <div class="photo-caption">
+      <h5>Praha</h5>
+      <p>Pokud nejsem blbej poprvé spolu v Praze Bejb, mimochodem vypadala jsi neskutečně nádherně </p>
+    </div>
+  </div>
+</div>
+  <!-- Foto 7–15 -->
+  <div class="photo-entry">
+    <img src="Galerie-Obrazku/CTYRI/30EA2E88-748C-4656-AC5A-A939F165FBCF_1_201_a.jpg" alt="Vzpomínka 7">
+    <div class="photo-caption">
+      <h5>Společný výlet</h5>
+      <p>Tiské skály zlato vzpomínáš , krásný den díky tomu že jsme byli spolu, jsem strašně šťastný za každý den co tě mohu vidět</p>
+    </div>
+</div>
+  <div class="photo-entry">
+    <img src="Galerie-Obrazku/CTYRI/42169F1B-70E1-4E39-BEBD-AB034EB60206.jpeg" alt="Vzpomínka 9">
+    <div class="photo-caption">
+      <h5>Spolu na zeměkouli </h5>
+      <p>Byl to krásný večer , byl jsem na svém oblíbeném intepretovi s tím nejoblíbenějším člověkem v mém životě        ( i nejkrásnějším)</p>
+    </div>
+  </div>
+  <div class="photo-entry">
+    <img src="Galerie-Obrazku/POSLEDNI/C69D9C2D-EC1A-4B84-A943-2360B47727F0_1_201_a.jpg" alt="Vzpomínka 10">
+    <div class="photo-caption">
+      <h5>Moje narozeniny</h5>
+      <p>Ty nejkrásnější narozeniny co jsem kdy měl , moc ti za ně děkuju a děkuju že jsi stále se mnou</p>
+    </div>
+  </div>
+  <div class="photo-entry">
+    <img src="Galerie-Obrazku/POSLEDNI/4115C527-9D31-4FBF-AE6B-F9F48E14F190_1_105_c.jpg" alt="Vzpomínka 11">
+    <div class="photo-caption">
+      <h5>Bruslení </h5>
+      <p>Jupííí tady jsme se pořádně spolu sklouzli a já si znovu ověřil že ta nejkrásnější holka pod sluncem jsi ty zlato</p>
+    </div>
+  </div>
+  <div class="photo-entry">
+    <img src="Galerie-Obrazku/POSLEDNI/27554DEF-E0BE-4089-9232-712177305101_1_105_c.jpg" alt="Vzpomínka 12">
+    <div class="photo-caption">
+      <h5>Jsi lehká kotě </h5>
+      <p>Vzpomínáš ty a já nádraží dost častý u nás dvou ale pořád mega kouzelný když jsi tam se mnou, nevím proč ale pokaždý co teď jedu okolo Ústeckého nádraží se koukám jestli tam náhodou nejsi asi síla zvyku </p>
+    </div>
+  </div>
+  <div class="photo-entry">
+    <img src="Galerie-Obrazku/CTYRI/2C854130-99D1-4223-AE98-60EA162F2238_1_105_c.jpg" alt="Vzpomínka 13">
+    <div class="photo-caption">
+      <h5>Ta nejkřásnější</h5>
+      <p>Na plesu jsi naprosto zářila a byla jsi stopro a tuplem ta nejkrásnější  a potom společný spinkání no bomba </p>
+    </div>
+  </div>
+  <div class="photo-entry">
+    <img src="Galerie-Obrazku/POSLEDNI/F41C2255-64CE-4B91-9E44-D002A9CA51E7_1_105_c.jpg" alt="Vzpomínka 14">
+    <div class="photo-caption">
+      <h5>Můj ples</h5>
+      <p>Sice to není tak pro mě veselá vzpomínka ale vypadala jsi neskutečně nádherně lásko neskutečně moc </p>
+    </div>
+  </div>
+  <div class="photo-entry">
+    <img src="Galerie-Obrazku/CTYRI/C4128FDF-0971-46FB-8727-7B0A1C454175_1_105_c.jpg" alt="Vzpomínka 15">
+    <div class="photo-caption">
+      <h5>Naše zatím poslední fotka </h5>
+      <p>Lásko dny plynou ale my dva jsme díky bohu stále spolu a doufám že ještě budeme dlouho kotě  , jsi to nejlepší co mě kdy v životě potkalo , děkuju že jsi moje žena a láska mého života</p>
+    </div>
+  </div>
+
+  <li><a href="vyroci.html">Naše výročí</a></li>
+
+  <!-- MODAL - Lightbox -->
+  <div id="lightboxModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+      <div class="modal-content bg-transparent border-0 text-center">
+        <div class="modal-body d-flex flex-column align-items-center justify-content-center" style="background: rgba(0,0,0,0.8);">
+          <img id="lightboxImage" src="" class="img-fluid mb-4" style="max-height: 80vh; border-radius: 16px;">
+          <div id="lightboxCaption" class="text-white fs-5 px-3"></div>
+          <button type="button" class="btn btn-light mt-4" data-bs-dismiss="modal">Zavřít</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skript pro zvětšování fotek -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.querySelectorAll('.photo-entry').forEach(entry => {
+      const images = entry.querySelectorAll('img');
+      const caption = entry.querySelector('.photo-caption')?.innerHTML;
+
+      if (images.length === 1) {
+        images[0].style.cursor = 'pointer';
+        images[0].addEventListener('click', () => {
+          const modal = new bootstrap.Modal(document.getElementById('lightboxModal'));
+          document.getElementById('lightboxImage').src = images[0].src;
+          document.getElementById('lightboxCaption').innerHTML = caption || '';
+          modal.show();
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
